@@ -5,6 +5,11 @@
     <string name="question2">8-6=3</string>
     <string name="question3">5+3=7</string>
     <string name="question4">10-8=2</string>
+    <string name="question5">3*3=4</string>
+    <string name="question6">15+17=32</string>
+    <string name="question7">100-8=92</string>
+    <string name="question8">40*3=12</string>
+    <string name="question9">125-20=18</string>
     <string name="yes_btn">Да</string>
     <string name="no_btn">Нет</string>
     <string name="correct">Правильно</string>

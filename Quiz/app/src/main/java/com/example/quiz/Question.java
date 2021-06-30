@@ -1,6 +1,8 @@
 package com.example.quiz;
 
-public class Question {
+import java.io.Serializable;
+@SuppressWarnings("serial")
+public class Question implements Serializable {
     private int question;
     private boolean answer;
 
