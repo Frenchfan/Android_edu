@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     //Объявляем экземпляр класса RecyclerView (ранее подключили его
     //через Project Structure - Dependencies - All <odules - Library Dependency
-    ArrayList<User> users = new ArrayList<>();
+    ArrayList<User> userList = new ArrayList<>();
     //Объявляем коллекцию элементов для вывода на экран
     UserAdapter userAdapter;
     // Объявляем экзмепляр класса адаптера для передачи элементов на наш recycleview
+    Button addUSerBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +37,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         //связываем переменную с элементом активности
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        addUSerBtn = findViewById(R.id.addUserBtn);
+        addUSerBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void recyclerViewInit(){
+        Users users = new Users(MainActivity.this);
         //Задаем расположение элементов списка в recycleview - выбираем вариант списка по одному элементу в строке (linear)
-        for (int i = 0; i < 100; i++) {
+        /*for (int i = 0; i < 100; i++) {
             //генерируем список элементов клсса User для recycleview (100 пользователей)
             User user = new User();
             //после вызова конструктора у User появился уникальный UID
@@ -40,11 +58,18 @@ public class MainActivity extends AppCompatActivity {
             user.setUserLastName("Фамилия №"+i);
             users.add(user);
             //Добавляем пользователя в коллекцию
-        }
-        userAdapter = new UserAdapter(users);
+        }*/
+        userList = users.getUserList();
+        userAdapter = new UserAdapter(userList);
         //Создаем экзмепляр класса UserAdapter и передаем в него сгенерированную коллекцию элементов
         recyclerView.setAdapter(userAdapter);
         //Связываем адаптер и recycleView
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        recyclerViewInit();
+
     }
 
     private  class UserHolder extends RecyclerView.ViewHolder{//создаем класс UserHolder на базе ViewHolder
@@ -55,6 +80,20 @@ public class MainActivity extends AppCompatActivity {
             //раздуваем макет, который представляет собой элемент списка (single_item.xml)
             // itemView - текущий layout single_item
             itemTextView = itemView.findViewById(R.id.itemTextView);
+            itemTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    User userTest = userAdapter.users.get (getBindingAdapterPosition());
+                    //int elementchecked = getBindingAdapterPosition();
+                    //String selementchecked = itemTextView.getText().toString();
+                    //как выделить элемент?
+                    Intent intent = new Intent(MainActivity.this, OnElementClick.class);
+                    //intent.putExtra("position", elementchecked);
+                    //intent.putExtra("LastName", selementchecked);
+                    intent.putExtra("fulluser", (Serializable) userTest);
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bind(String userString){
@@ -71,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
         public UserAdapter(ArrayList<User> users) {
             this.users = users;
         }
+
+
+
 
         @Override
         public UserHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
