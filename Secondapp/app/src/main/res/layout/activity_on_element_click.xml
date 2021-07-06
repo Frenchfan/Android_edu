@@ -12,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:focusable="false"
-        android:longClickable="false"
-        android:cursorVisible="false"
+
         android:ems="10"
         android:inputType="text"
 
@@ -25,9 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:focusable="false"
-        android:longClickable="false"
-        android:cursorVisible="false"
+
         android:ems="10"
         android:inputType="text"
         android:text="" />
@@ -37,12 +33,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:focusable="false"
-        android:longClickable="false"
-        android:cursorVisible="false"
+
         android:ems="10"
         android:inputType="text"
         android:text="" />
+
+    <Button
+        android:id="@+id/editUserInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Редактировать запись" />
 
     <Button
         android:id="@+id/deleteUserBtn"

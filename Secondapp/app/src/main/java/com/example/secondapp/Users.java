@@ -12,6 +12,7 @@ import com.example.secondapp.database.UserBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Users {
     private ArrayList<User> userList;
@@ -63,5 +64,24 @@ public class Users {
         }
         return userList;
 
+    }
+
+    public User getUserFromDB(UUID uuid) {
+        Cursor cursor = database.query(USerDbSchema.UserTable.NAME,
+                null,
+                USerDbSchema.Cols.UUID+"=?",
+                new String[]{uuid.toString()},
+                null, null, null);
+        UserCursorWrapper cursorWrapper = new UserCursorWrapper(cursor);
+        cursorWrapper.moveToFirst();
+        return cursorWrapper.getUser();
+    }
+    public void updateUser(User user){
+        ContentValues values = getContentValues(user);
+        String stringUuid = user.getUuid().toString();
+        database.update(USerDbSchema.UserTable.NAME,
+                values,
+                USerDbSchema.Cols.UUID+"=?", new String[]{stringUuid}
+        );
     }
 }
